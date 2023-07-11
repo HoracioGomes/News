@@ -1,0 +1,45 @@
+{
+  "status": "ok",
+  "totalResults": 3,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "CBS Sports"
+      },
+      "author": "",
+      "title": "2023 MLB Draft tracker, results: Live updates of every pick, first-round analysis as baseball draft continues - CBS Sports",
+      "description": "The 2023 MLB Draft continues Monday; stay up to date with every pick",
+      "url": "https://www.cbssports.com/mlb/news/2023-mlb-draft-tracker-results-live-updates-of-every-pick-first-round-analysis-as-baseball-draft-continues/",
+      "urlToImage": "https://sportshub.cbsistatic.com/i/r/2023/07/10/e5bf0521-7eac-45b0-96f4-0ee849199c15/thumbnail/1200x675/9786a7a81872d8c45303d7b4b28840f2/mlb-draft-getty-11.png",
+      "publishedAt": "2023-07-10T18:05:00Z",
+      "content": "The 2023 MLB Draft continues Monday with Rounds 3-10. Action kicked off Sunday night with the first two rounds (a total of 70 picks), and history was made at the top of the draft. Paul Skenes and Dyl… [+12674 chars]"
+    },
+    {
+      "source": {
+        "id": "ars-technica",
+        "name": "Ars Technica"
+      },
+      "author": "Andrew Cunningham",
+      "title": "Windows 95, 98, and other decrepit versions can grab online updates again - Ars Technica",
+      "description": "Retro-computing fans can download the final updates released for '90s-era OSes.",
+      "url": "https://arstechnica.com/gadgets/2023/07/windows-95-98-and-other-decrepit-versions-can-grab-online-updates-again/",
+      "urlToImage": "https://cdn.arstechnica.net/wp-content/uploads/2023/07/Screenshot-2015-07-21-07.56.59-760x380.png",
+      "publishedAt": "2023-07-10T17:33:58Z",
+      "content": "Enlarge/ The Windows 95 desktop.\r\n36 with \r\nIf you have any interest in retro-computing, you know it can be difficult to round up the last official bug fixes and updates available for early Internet-… [+2931 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "YouTube"
+      },
+      "author": null,
+      "title": "Sky5 tour of the Palos Verdes Peninsula landslide - KTLA 5",
+      "description": "At least 12 homes were evacuated in Rolling Hills Estates along Peartree Lane next to the canyon area, the Los Angeles County Fire Department said. Several o...",
+      "url": "https://www.youtube.com/watch?v=dJad2bWVE2I",
+      "urlToImage": "https://i.ytimg.com/vi/dJad2bWVE2I/maxresdefault.jpg",
+      "publishedAt": "2023-07-10T17:20:19Z",
+      "content": null
+    }
+  ]
+}

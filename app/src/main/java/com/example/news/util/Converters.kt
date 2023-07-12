@@ -1,6 +1,7 @@
-package com.example.news.data.util
+package com.example.news.util
 
 import com.example.news.data.model.APIResponse
+import com.example.news.data.repository.Resource
 import retrofit2.Response
 
 class Converters {

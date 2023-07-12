@@ -3,8 +3,7 @@ package com.example.news.data.repository
 import com.example.news.data.model.APIResponse
 import com.example.news.data.model.Article
 import com.example.news.data.repository.datasource.NewsRemoteDataSource
-import com.example.news.data.util.Converters
-import com.example.news.data.util.Resource
+import com.example.news.util.Converters
 import com.example.news.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 

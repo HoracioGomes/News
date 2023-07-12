@@ -2,7 +2,7 @@ package com.example.news.domain.repository
 
 import com.example.news.data.model.APIResponse
 import com.example.news.data.model.Article
-import com.example.news.data.util.Resource
+import com.example.news.data.repository.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {

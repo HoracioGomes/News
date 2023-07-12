@@ -4,5 +4,5 @@ import com.example.news.data.model.APIResponse
 import retrofit2.Response
 
 interface NewsRemoteDataSource {
-    suspend fun getNews(): Response<APIResponse>
+    suspend fun getNews(country: String, page: Int): Response<APIResponse>
 }

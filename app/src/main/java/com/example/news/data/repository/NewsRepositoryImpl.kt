@@ -9,8 +9,8 @@ import com.example.news.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 
 class NewsRepositoryImpl(private val dataSource: NewsRemoteDataSource) : NewsRepository {
-    override suspend fun getNews(): Resource<APIResponse> {
-        return Converters.responseToResource(dataSource.getNews())
+    override suspend fun getNews(country: String, page: Int): Resource<APIResponse> {
+        return Converters.responseToResource(dataSource.getNews(country, page))
     }
 
     override suspend fun getSearchedNews(searchQuery: String): Resource<APIResponse> {

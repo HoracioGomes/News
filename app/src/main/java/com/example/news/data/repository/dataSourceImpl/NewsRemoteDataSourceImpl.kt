@@ -7,10 +7,8 @@ import retrofit2.Response
 
 class NewsRemoteDataSourceImpl(
     private val service: NewsAPIService,
-    private val country: String,
-    private val page: Int
 ) : NewsRemoteDataSource {
-    override suspend fun getNews(): Response<APIResponse> {
+    override suspend fun getNews(country: String, page: Int): Response<APIResponse> {
         return service.getNews(country = country, page = page)
     }
 }

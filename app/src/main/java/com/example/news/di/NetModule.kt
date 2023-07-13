@@ -1,6 +1,7 @@
 package com.example.news.di
 
 import com.example.news.BuildConfig
+import com.example.news.data.api.NewsAPIService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,5 +21,11 @@ class NetModule {
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BuildConfig.BASE_URL)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesNewsAPIService(retrofit: Retrofit): NewsAPIService {
+        return retrofit.create(NewsAPIService::class.java)
     }
 }

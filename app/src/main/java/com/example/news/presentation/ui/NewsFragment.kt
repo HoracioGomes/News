@@ -4,29 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
-import com.example.news.presentation.ui.Params.Companion.ARG_PARAM1
-import com.example.news.presentation.ui.Params.Companion.ARG_PARAM2
+import com.example.news.data.repository.Resource
+import com.example.news.databinding.FragmentNewsBinding
+import com.example.news.presentation.ui.adapter.NewsAdapter
+import com.example.news.presentation.viewmodel.NewsViewModel
 
-/**
- * A simple [Fragment] subclass.
- * Use the [NewsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class NewsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private val page: Int = 1
+    private val country: String = "us"
+    lateinit var viewModel: NewsViewModel
+    lateinit var binding: FragmentNewsBinding
+    lateinit var newsAdapter: NewsAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,23 +27,50 @@ class NewsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_news, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment NewsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            NewsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel = (activity as MainActivity).viewModel
+        binding = FragmentNewsBinding.bind(view)
+        initRecyclerView()
+        setupList()
+    }
+
+    private fun initRecyclerView() {
+        newsAdapter = NewsAdapter()
+        binding.rvNews.apply {
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
+    }
+
+    private fun setupList() {
+        viewModel.getNews(country = country, page = page)
+        viewModel.liveNews.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    response.data?.let {
+                        newsAdapter.differ.submitList(it.articles.toList())
+                    }
+                }
+
+                is Resource.Error -> {
+                    response.message?.let {
+                        Toast.makeText(activity, "A error occurred: $it", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                is Resource.Loading -> {
+                    showProgressBar()
                 }
             }
+        }
+    }
+
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
     }
 }

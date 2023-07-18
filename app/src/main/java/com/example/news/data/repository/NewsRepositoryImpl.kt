@@ -12,8 +12,8 @@ class NewsRepositoryImpl(private val dataSource: NewsRemoteDataSource) : NewsRep
         return Converters.responseToResource(dataSource.getNews(country, page))
     }
 
-    override suspend fun getSearchedNews(searchQuery: String): Resource<APIResponse> {
-        TODO("Not yet implemented")
+    override suspend fun getSearchedNews(country: String, page: Int,searchQuery: String): Resource<APIResponse> {
+        return Converters.responseToResource(dataSource.getSearchNews(country = country, page = page, querySearch = searchQuery))
     }
 
     override suspend fun saveNews(article: Article) {

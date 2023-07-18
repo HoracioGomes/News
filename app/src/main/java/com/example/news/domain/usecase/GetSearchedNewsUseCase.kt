@@ -6,7 +6,7 @@ import com.example.news.domain.repository.NewsRepository
 
 class GetSearchedNewsUseCase(private val repository: NewsRepository) {
 
-    suspend fun execute(searchQuery: String): Resource<APIResponse> {
-        return repository.getSearchedNews(searchQuery)
+    suspend fun execute(country: String, page: Int, searchQuery: String): Resource<APIResponse> {
+        return repository.getSearchedNews(country = country, page = page, searchQuery = searchQuery)
     }
 }

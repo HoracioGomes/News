@@ -16,4 +16,11 @@ interface NewsAPIService {
         @Query("country")
         country: String
     ): Response<APIResponse>
+
+    @GET("v2/top-headlines")
+    suspend fun searchNews(
+        @Query("apiKey") apiKey: String = BuildConfig.API_KEY,
+        @Query("page") page: Int, @Query("country") country: String, @Query("q") querySearch: String
+    ): Response<APIResponse>
+
 }

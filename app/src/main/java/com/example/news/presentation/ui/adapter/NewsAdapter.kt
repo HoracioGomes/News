@@ -11,6 +11,10 @@ import com.example.news.data.model.Article
 import com.example.news.databinding.NewsListItemBinding
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+    private var onItemClickListener: ((Article) -> Unit)? = null
+    fun setOnItemClickListener(listener: (Article) -> Unit) {
+        onItemClickListener = listener
+    }
 
     private val callback = object : DiffUtil.ItemCallback<Article>() {
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
@@ -45,10 +49,16 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
         fun binding(article: Article) {
             binding.tvTitle.text = article.title
             binding.tvDescription.text = article.description
-            binding.tvSource.text = article.source.name
+            binding.tvSource.text = article.source?.name ?: ""
             binding.tvPublishedAt.text = article.publishedAt
             Glide.with(binding.ivArticleImage.context).load(article.urlToImage)
                 .into(binding.ivArticleImage)
+
+            binding.root.setOnClickListener {
+                onItemClickListener?.let { listener ->
+                    listener(article)
+                }
+            }
         }
 
     }

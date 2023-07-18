@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.example.news.R
-import com.example.news.presentation.ui.Params.Companion.ARG_PARAM1
-import com.example.news.presentation.ui.Params.Companion.ARG_PARAM2
+import com.example.news.databinding.FragmentInfoBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -15,16 +16,10 @@ import com.example.news.presentation.ui.Params.Companion.ARG_PARAM2
  * create an instance of this fragment.
  */
 class InfoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    lateinit var infoBinding: FragmentInfoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -35,23 +30,17 @@ class InfoFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_info, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment InfoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            InfoFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        infoBinding = FragmentInfoBinding.bind(view)
+        val args: InfoFragmentArgs by navArgs()
+        val article = args.selectedArticle
+        infoBinding.wvInfo.apply {
+            webViewClient = WebViewClient()
+            if (article.url != "" && article.url != null) {
+                loadUrl(article.url)
             }
+        }
     }
+
 }

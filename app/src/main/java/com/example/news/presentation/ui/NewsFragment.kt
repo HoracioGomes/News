@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
@@ -40,6 +41,12 @@ class NewsFragment : Fragment() {
         binding = FragmentNewsBinding.bind(view)
         initRecyclerView()
         setupList()
+        newsAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("selected_article", it)
+            }
+            findNavController().navigate(R.id.action_newsFragment_to_infoFragment, args = bundle)
+        }
     }
 
     private fun initRecyclerView() {

@@ -8,6 +8,14 @@
     tools:context=".presentation.ui.NewsFragment">
 
 
+    <SearchView
+        android:id="@+id/sv_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/search_background" >
+
+    </SearchView>
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -19,5 +27,8 @@
         android:id="@+id/rvNews"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5dp" />
+        android:padding="5dp" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 </LinearLayout>

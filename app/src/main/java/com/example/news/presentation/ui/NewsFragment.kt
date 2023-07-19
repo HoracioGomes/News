@@ -5,16 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
+import com.example.news.data.model.APIResponse
 import com.example.news.data.repository.Resource
 import com.example.news.databinding.FragmentNewsBinding
 import com.example.news.presentation.ui.adapter.NewsAdapter
 import com.example.news.presentation.viewmodel.NewsViewModel
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class NewsFragment : Fragment() {
     private var page: Int = 1
@@ -47,6 +53,7 @@ class NewsFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_newsFragment_to_infoFragment, args = bundle)
         }
+        setupSearch()
     }
 
     private fun initRecyclerView() {
@@ -86,6 +93,81 @@ class NewsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setupSearch() {
+        setSearchView()
+        setCloseSearch()
+        viewModel.searchedNews.observe(
+            viewLifecycleOwner
+        ) { resource ->
+            when (resource) {
+
+                is Resource.Success -> {
+                    hideProgressBar()
+                    resource.data?.let {
+                        newsAdapter.differ.submitList(it.articles.toList())
+                        if (it.totalResults % 20 == 0) {
+                            pages = it.totalResults / 20
+                        } else {
+                            pages = it.totalResults / 20 + 1
+                        }
+
+                        isLastPage = page == pages
+                    }
+                }
+
+                is Resource.Error -> {
+                    hideProgressBar()
+                }
+
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+            }
+        }
+    }
+
+
+    private fun setSearchView() {
+        binding.svNews.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    viewModel.searchNews(
+                        country = country,
+                        page = page,
+                        searchQuery = it
+                    )
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                MainScope().launch {
+                    delay(2000)
+                    query?.let {
+                        viewModel.searchNews(
+                            country = country,
+                            page = page,
+                            searchQuery = it
+                        )
+                    }
+                }
+                return false
+            }
+
+        })
+    }
+
+    private fun setCloseSearch() {
+        binding.svNews.setOnCloseListener(object : SearchView.OnCloseListener {
+            override fun onClose(): Boolean {
+                initRecyclerView()
+                setupList()
+                return false
+            }
+
+        })
     }
 
     private fun showProgressBar() {

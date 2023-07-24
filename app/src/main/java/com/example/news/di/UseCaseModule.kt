@@ -3,6 +3,7 @@ package com.example.news.di
 import com.example.news.domain.repository.NewsRepository
 import com.example.news.domain.usecase.GetNewsUseCase
 import com.example.news.domain.usecase.GetSearchedNewsUseCase
+import com.example.news.domain.usecase.SaveNewsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +26,11 @@ class UseCaseModule {
     @Singleton
     fun providesSearchNewsUseCase(repository: NewsRepository): GetSearchedNewsUseCase {
         return GetSearchedNewsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesSaveArticleUseCase(repository: NewsRepository): SaveNewsUseCase {
+        return SaveNewsUseCase(repository)
     }
 }

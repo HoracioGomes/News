@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.news.R
 import com.example.news.databinding.FragmentInfoBinding
+import com.example.news.presentation.viewmodel.NewsViewModel
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * A simple [Fragment] subclass.
@@ -17,6 +19,7 @@ import com.example.news.databinding.FragmentInfoBinding
  */
 class InfoFragment : Fragment() {
     lateinit var infoBinding: FragmentInfoBinding
+    lateinit var viewModel: NewsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +36,7 @@ class InfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         infoBinding = FragmentInfoBinding.bind(view)
+        viewModel = (activity as MainActivity).viewModel
         val args: InfoFragmentArgs by navArgs()
         val article = args.selectedArticle
         infoBinding.wvInfo.apply {
@@ -40,6 +44,13 @@ class InfoFragment : Fragment() {
             if (article.url != "" && article.url != null) {
                 loadUrl(article.url)
             }
+        }
+
+        infoBinding.fabSave.setOnClickListener {
+            if (article != null) {
+                viewModel.saveArticle(article)
+            }
+            Snackbar.make(view, "Saved!", Snackbar.LENGTH_SHORT).show()
         }
     }
 

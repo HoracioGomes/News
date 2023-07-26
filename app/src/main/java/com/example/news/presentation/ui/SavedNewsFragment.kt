@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
-import com.example.news.data.model.Article
 import com.example.news.databinding.FragmentSavedNewsBinding
-import com.example.news.presentation.ui.Params.Companion.ARG_PARAM1
-import com.example.news.presentation.ui.Params.Companion.ARG_PARAM2
 import com.example.news.presentation.ui.adapter.NewsAdapter
 import com.example.news.presentation.viewmodel.NewsViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class SavedNewsFragment : Fragment() {
     lateinit var newsAdapter: NewsAdapter
@@ -36,14 +36,7 @@ class SavedNewsFragment : Fragment() {
         configAdapter()
         initRecyclerView()
         initObserver()
-    }
-
-    private fun initObserver() {
-        viewModel.getSavedNews().observe(
-            viewLifecycleOwner
-        ) {
-            newsAdapter.differ.submitList(it)
-        }
+        configSwipe(view)
     }
 
     private fun configAdapter() {
@@ -66,4 +59,44 @@ class SavedNewsFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
         }
     }
+
+    private fun initObserver() {
+        viewModel.getSavedNews().observe(
+            viewLifecycleOwner
+        ) {
+            newsAdapter.differ.submitList(it)
+        }
+    }
+
+    private fun configSwipe(view: View) {
+        val touchHelperCallback = object : SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val article = newsAdapter.differ.currentList[viewHolder.adapterPosition]
+                viewModel.deleteSavedArticle(article)
+                Snackbar.make(view, "Deleted successfully", Snackbar.LENGTH_SHORT).apply {
+                    setAction("Undo") {
+                        viewModel.saveArticle(article)
+                    }
+                }
+                    .show()
+            }
+        }
+
+        ItemTouchHelper(touchHelperCallback).apply {
+            attachToRecyclerView(binding.rvNews)
+        }
+    }
+
+
 }

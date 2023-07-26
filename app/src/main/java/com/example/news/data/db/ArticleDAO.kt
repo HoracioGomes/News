@@ -1,6 +1,7 @@
 package com.example.news.data.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -13,4 +14,7 @@ interface ArticleDAO {
     suspend fun saveArticle(article: Article)
     @Query("SELECT * FROM articles")
     fun getSavedArticles(): Flow<List<Article>>
+
+    @Delete
+    suspend fun deleteSavedArticle(article: Article)
 }

@@ -1,6 +1,7 @@
 package com.example.news.di
 
 import com.example.news.domain.repository.NewsRepository
+import com.example.news.domain.usecase.DeleteSavedNewsUseCase
 import com.example.news.domain.usecase.GetNewsUseCase
 import com.example.news.domain.usecase.GetSavedNewsUseCase
 import com.example.news.domain.usecase.GetSearchedNewsUseCase
@@ -39,5 +40,11 @@ class UseCaseModule {
     @Singleton
     fun providesGetSavedNewsUseCase(repository: NewsRepository): GetSavedNewsUseCase {
         return GetSavedNewsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesDeleteSavedArticleUseCase(repository: NewsRepository): DeleteSavedNewsUseCase {
+        return DeleteSavedNewsUseCase(repository)
     }
 }

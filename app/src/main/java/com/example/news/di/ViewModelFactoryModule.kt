@@ -1,6 +1,7 @@
 package com.example.news.di
 
 import android.app.Application
+import com.example.news.domain.usecase.DeleteSavedNewsUseCase
 import com.example.news.domain.usecase.GetNewsUseCase
 import com.example.news.domain.usecase.GetSavedNewsUseCase
 import com.example.news.domain.usecase.GetSearchedNewsUseCase
@@ -23,8 +24,9 @@ class ViewModelFactoryModule {
         getNewsUseCase: GetNewsUseCase,
         searchedNewsUseCase: GetSearchedNewsUseCase,
         saveNewsUseCase: SaveNewsUseCase,
-        getSavedNewsUseCase: GetSavedNewsUseCase
+        getSavedNewsUseCase: GetSavedNewsUseCase,
+        deleteSavedNewsUseCase: DeleteSavedNewsUseCase
     ): NewsViewModelFactory {
-        return NewsViewModelFactory(application, getNewsUseCase, searchedNewsUseCase, saveNewsUseCase, getSavedNewsUseCase)
+        return NewsViewModelFactory(application, getNewsUseCase, searchedNewsUseCase, saveNewsUseCase, getSavedNewsUseCase, deleteSavedNewsUseCase)
     }
 }
